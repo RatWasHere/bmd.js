@@ -67,7 +67,6 @@ const Shard = (await import("./dist/lib/gateway/Shard.js")).default.default;
 const ShardManager = (await import("./dist/lib/gateway/ShardManager.js")).default.default;
 const StageChannel = (await import("./dist/lib/structures/StageChannel.js")).default.default;
 const StageInstance = (await import("./dist/lib/structures/StageInstance.js")).default.default;
-const Subscription = (await import("./dist/lib/structures/Subscription.js")).default.default;
 const Team = (await import("./dist/lib/structures/Team.js")).default.default;
 const TestEntitlement = (await import("./dist/lib/structures/TestEntitlement.js")).default.default;
 const TextableChannel = (await import("./dist/lib/structures/TextableChannel.js")).default.default;
@@ -157,7 +156,6 @@ export {
     ShardManager,
     StageChannel,
     StageInstance,
-    Subscription,
     Team,
     TestEntitlement,
     TextableChannel,
