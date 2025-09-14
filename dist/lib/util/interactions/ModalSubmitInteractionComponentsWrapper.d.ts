@@ -1,9 +1,9 @@
-import type { ModalSubmitComponents, ModalSubmitComponentsActionRow, ModalSubmitTextInputComponent } from "../../types/interactions";
+import type { ModalSubmitComponents, ModalSubmitComponentsActionRow, ModalSubmitComponentsLabel, ModalSubmitTextInputComponent } from "../../types/interactions";
 /** A wrapper for interaction components. */
 export default class ModalSubmitInteractionComponentsWrapper {
     /** The raw components from Discord.  */
-    raw: Array<ModalSubmitComponentsActionRow>;
-    constructor(data: Array<ModalSubmitComponentsActionRow>);
+    raw: Array<ModalSubmitComponentsActionRow | ModalSubmitComponentsLabel>;
+    constructor(data: Array<ModalSubmitComponentsActionRow | ModalSubmitComponentsLabel>);
     private _getComponent;
     /** Get the components in this interaction. */
     getComponents(): Array<ModalSubmitComponents>;

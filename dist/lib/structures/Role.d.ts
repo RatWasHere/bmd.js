@@ -3,13 +3,18 @@ import Base from "./Base";
 import Permission from "./Permission";
 import type Guild from "./Guild";
 import type Client from "../Client";
-import type { RawRole, RoleTags, EditRoleOptions } from "../types/guilds";
+import type { RawRole, RoleTags, EditRoleOptions, RoleColors } from "../types/guilds";
 import type { JSONRole } from "../types/json";
 /** Represents a role in a guild. */
 export default class Role extends Base {
     private _cachedGuild?;
-    /** The color of this role. */
+    /**
+     * The color of this role.
+     * @deprecated Use {@link Role#colors | Role#colors.primaryColor} instead.
+     */
     color: number;
+    /** The colors of this role. */
+    colors: RoleColors;
     /** The {@link Constants~RoleFlags | flags } for this role. */
     flags: number;
     /** The id of the guild this role is in. */

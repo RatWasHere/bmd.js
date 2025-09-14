@@ -2,11 +2,11 @@
 /// <reference types="node" />
 import type Client from "../Client";
 import { type ImageFormat, type PrivilegedIntentNames } from "../Constants";
-import type { AllowedMentions, AnyChannel, AnyThreadChannel, Component, Embed, EmbedOptions, ModalActionRow, RawAllowedMentions, RawChannel, RawComponent, RawEmbed, RawEmbedOptions, RawModalActionRow, RawThreadChannel, ToComponentFromRaw, ToRawFromComponent } from "../types/channels";
+import type { AllowedMentions, AnyChannel, AnyThreadChannel, Component, Embed, EmbedOptions, RawAllowedMentions, RawChannel, RawComponent, RawEmbed, RawEmbedOptions, RawThreadChannel, ToComponentFromRaw, ToRawFromComponent } from "../types/channels";
 import type { RawMember, RawSticker, RESTMember, Sticker } from "../types/guilds";
 import type { ApplicationCommandOptions, RawApplicationCommandOption } from "../types/applications";
 import Member from "../structures/Member";
-import type { AnyTextableChannel, CollectionLimitsOptions, GuildEmoji, ModalSubmitComponentsActionRow, RawGuildEmoji, RawMessage, RawModalSubmitComponents, RawModalSubmitComponentsActionRow, ToModalSubmitComponentFromRaw, Uncached, RawBaseEntitlement, ApplicationEmoji, RawApplicationEmoji, MessageComponent, ModalComponent, RawMessageComponent, RawModalComponent } from "../types";
+import type { AnyTextableChannel, CollectionLimitsOptions, GuildEmoji, ModalSubmitComponentsActionRow, RawGuildEmoji, RawMessage, RawModalSubmitComponents, RawModalSubmitComponentsActionRow, ToModalSubmitComponentFromRaw, Uncached, RawBaseEntitlement, ApplicationEmoji, RawApplicationEmoji, MessageComponent, ModalComponent, RawMessageComponent, RawModalComponent, RawModalSubmitComponentsLabel, ModalSubmitComponentsLabel } from "../types";
 import Message from "../structures/Message";
 import Entitlement from "../structures/Entitlement";
 import TestEntitlement from "../structures/TestEntitlement";
@@ -19,12 +19,14 @@ export default class Util {
     static rawEmbeds(embeds: Array<RawEmbed>): Array<Embed>;
     static rawMessageComponents(components: RawMessageComponent): MessageComponent;
     static rawMessageComponents(components: Array<RawMessageComponent>): Array<MessageComponent>;
-    static rawModalComponents(components: RawModalActionRow): ModalActionRow;
-    static rawModalComponents(components: Array<RawModalActionRow>): Array<ModalActionRow>;
+    static rawModalComponents(components: RawModalComponent): ModalComponent;
+    static rawModalComponents(components: Array<RawModalComponent>): Array<ModalComponent>;
     /** @hidden intentionally not documented - this is an internal function */
     _convertImage(image: Buffer | string, name: string): string;
     /** @hidden intended for internal use only */
     _convertSound(sound: Buffer | string, name: string): string;
+    /** @internal */
+    _freeze<T>(obj: T, detail?: string): T;
     /** @hidden intended for internal use only */
     _getLimit(name: Exclude<keyof CollectionLimitsOptions, "users">, id?: string): number;
     /** @hidden intended for internal use only */
@@ -46,7 +48,7 @@ export default class Util {
     formatImage(url: string, format?: ImageFormat, size?: number): string;
     getMagic(file: Buffer, len?: number): string;
     modalSubmitComponentToParsed<T extends RawModalSubmitComponents>(component: T): ToModalSubmitComponentFromRaw<T>;
-    modalSubmitComponentsToParsed<T extends RawModalSubmitComponentsActionRow>(components: Array<T>): Array<ModalSubmitComponentsActionRow>;
+    modalSubmitComponentsToParsed<T extends RawModalSubmitComponentsActionRow | RawModalSubmitComponentsLabel>(components: Array<T>): Array<ModalSubmitComponentsActionRow | ModalSubmitComponentsLabel>;
     optionToParsed(option: RawApplicationCommandOption): ApplicationCommandOptions;
     optionToRaw(option: ApplicationCommandOptions): RawApplicationCommandOption;
     /** @internal */

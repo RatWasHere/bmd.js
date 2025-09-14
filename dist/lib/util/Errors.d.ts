@@ -36,3 +36,8 @@ export declare class NotImplementedError extends Error {
     name: string;
     constructor(message?: string);
 }
+export declare class FrozenModificationError extends Error {
+    name: string;
+    property: string | symbol;
+    constructor(detail: string | undefined, prop: string | symbol);
+}

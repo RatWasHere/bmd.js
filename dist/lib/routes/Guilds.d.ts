@@ -1,14 +1,14 @@
 /// <reference types="node" />
 /// <reference types="node" />
 /** @module REST/Guilds */
-import type { CreateGuildEmojiOptions, CreateGuildOptions, EditGuildEmojiOptions, EditGuildOptions, GuildEmoji, ModifyChannelPositionsEntry, GetActiveThreadsResponse, GetMembersOptions, SearchMembersOptions, AddMemberOptions, EditMemberOptions, EditCurrentMemberOptions, GetBansOptions, Ban, CreateBanOptions, CreateRoleOptions, EditRolePositionsEntry, EditRoleOptions, GetPruneCountOptions, BeginPruneOptions, WidgetSettings, RawWidget, Widget, WidgetImageStyle, WelcomeScreen, EditWelcomeScreenOptions, GetVanityURLResponse, EditUserVoiceStateOptions, EditCurrentUserVoiceStateOptions, CreateChannelOptions, EditMFALevelOptions, Sticker, CreateStickerOptions, EditStickerOptions, Onboarding, EditOnboardingOptions, EditIncidentActionsOptions, IncidentActions, BulkBanOptions, BulkBanResponse, MemberSearchOptions, MemberSearchResults, EditSoundboardSoundOptions, CreateSoundboardSoundOptions } from "../types/guilds";
+import type { CreateGuildEmojiOptions, EditGuildEmojiOptions, EditGuildOptions, GuildEmoji, ModifyChannelPositionsEntry, GetActiveThreadsResponse, GetMembersOptions, SearchMembersOptions, AddMemberOptions, EditMemberOptions, EditCurrentMemberOptions, GetBansOptions, Ban, CreateBanOptions, CreateRoleOptions, EditRolePositionsEntry, EditRoleOptions, GetPruneCountOptions, BeginPruneOptions, WidgetSettings, RawWidget, Widget, WidgetImageStyle, WelcomeScreen, EditWelcomeScreenOptions, GetVanityURLResponse, EditUserVoiceStateOptions, EditCurrentUserVoiceStateOptions, CreateChannelOptions, Sticker, CreateStickerOptions, EditStickerOptions, Onboarding, EditOnboardingOptions, EditIncidentActionsOptions, IncidentActions, BulkBanOptions, BulkBanResponse, MemberSearchOptions, MemberSearchResults, EditSoundboardSoundOptions, CreateSoundboardSoundOptions } from "../types/guilds";
 import type { CreateAutoModerationRuleOptions, EditAutoModerationRuleOptions } from "../types/auto-moderation";
-import type { ChannelTypeMap, MFALevels } from "../Constants";
+import type { ChannelTypeMap } from "../Constants";
 import type { AuditLog, GetAuditLogOptions } from "../types/audit-log";
 import GuildScheduledEvent from "../structures/GuildScheduledEvent";
 import type { CreateScheduledEventOptions, EditScheduledEventOptions, GetScheduledEventUsersOptions, ScheduledEventUser } from "../types/scheduled-events";
 import GuildTemplate from "../structures/GuildTemplate";
-import type { CreateGuildFromTemplateOptions, CreateTemplateOptions, EditGuildTemplateOptions } from "../types/guild-template";
+import type { CreateTemplateOptions, EditGuildTemplateOptions } from "../types/guild-template";
 import GuildPreview from "../structures/GuildPreview";
 import type { AnyGuildChannelWithoutThreads, AnyInviteChannel, GuildChannelsWithoutThreads, PartialInviteChannel } from "../types/channels";
 import Role from "../structures/Role";
@@ -62,12 +62,6 @@ export default class Guilds {
      */
     bulkBan(guildID: string, options: BulkBanOptions): Promise<BulkBanResponse>;
     /**
-     * Create a guild. This can only be used by bots in under 10 guilds.
-     * @param options The options for creating the guild.
-     * @caching This method **does not** cache its result.
-     */
-    create(options: CreateGuildOptions): Promise<Guild>;
-    /**
      * Create an auto moderation rule for a guild.
      * @param guildID The ID of the guild.
      * @param options The options for creating the rule.
@@ -99,15 +93,6 @@ export default class Guilds {
      * @caches {@link Guild#emojis | Guild#emojis}<br>{@link Client#users | Client#users} (creator, if applicable)
      */
     createEmoji(guildID: string, options: CreateGuildEmojiOptions): Promise<GuildEmoji>;
-    /**
-     * Create a guild from a template. This can only be used by bots in less than 10 guilds.
-     *
-     * Note: This does NOT add the guild to the client's cache.
-     * @param code The code of the template to use.
-     * @param options The options for creating the guild.
-     * @caching This method **does not** cache its result.
-     */
-    createFromTemplate(code: string, options: CreateGuildFromTemplateOptions): Promise<Guild>;
     /**
      * Create a role.
      * @param guildID The ID of the guild.
@@ -146,12 +131,6 @@ export default class Guilds {
      * @param options The options for creating the template.
      */
     createTemplate(guildID: string, options: CreateTemplateOptions): Promise<GuildTemplate>;
-    /**
-     * Delete a guild.
-     * @param guildID The ID of the guild.
-     * @caching This method **does not** cache its result.
-     */
-    delete(guildID: string): Promise<void>;
     /**
      * Delete an auto moderation rule.
      * @param guildID The ID of the guild.
@@ -270,13 +249,6 @@ export default class Guilds {
      */
     editIncidentActions(guildID: string, options: EditIncidentActionsOptions): Promise<IncidentActions>;
     /**
-     * Edit the [mfa level](https://discord.com/developers/docs/resources/guild#guild-object-mfa-level) of a guild. This can only be used by the guild owner.
-     * @param guildID The ID of the guild.
-     * @param options The options for editing the MFA level.
-     * @caching This method **does not** cache its result.
-     */
-    editMFALevel(guildID: string, options: EditMFALevelOptions): Promise<MFALevels>;
-    /**
      * Edit a guild member. Use editCurrentMember if you wish to update the nick of this client using the `CHANGE_NICKNAME` permission.
      * @param guildID The ID of the guild.
      * @param memberID The ID of the member.
@@ -311,11 +283,12 @@ export default class Guilds {
     /**
      * Edit an existing scheduled event in a guild.
      * @param guildID The ID of the guild.
+     * @param scheduledEventID The ID of the scheduled event.
      * @param options The options for editing the scheduled event.
      * @caching This method **may** cache its result. The result will not be cached if the guild is not cached.
      * @caches {@link Guild#scheduledEvents | Guild#scheduledEvents}
      */
-    editScheduledEvent(guildID: string, options: EditScheduledEventOptions): Promise<GuildScheduledEvent>;
+    editScheduledEvent(guildID: string, scheduledEventID: string, options: EditScheduledEventOptions): Promise<GuildScheduledEvent>;
     /**
      * Edit a soundboard sound.
      * @param guildID The ID of the guild.

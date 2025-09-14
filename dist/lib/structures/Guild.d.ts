@@ -27,7 +27,7 @@ import { type DefaultMessageNotificationLevels, type ExplicitContentFilterLevels
 import type Client from "../Client";
 import TypedCollection from "../util/TypedCollection";
 import type { AnyGuildChannel, AnyGuildChannelWithoutThreads, AnyTextableGuildChannel, AnyThreadChannel, AnyInviteChannel, RawGuildChannel, RawThreadChannel, GuildChannelsWithoutThreads, RawInvite, RawSoundboard } from "../types/channels";
-import type { AddMemberOptions, BeginPruneOptions, CreateBanOptions, CreateChannelOptions, CreateGuildEmojiOptions, CreateRoleOptions, EditCurrentMemberOptions, EditCurrentUserVoiceStateOptions, EditGuildEmojiOptions, EditGuildOptions, EditMemberOptions, EditRoleOptions, EditRolePositionsEntry, EditUserVoiceStateOptions, EditWelcomeScreenOptions, GetBansOptions, GetMembersOptions, GetPruneCountOptions, GuildEmoji, ModifyChannelPositionsEntry, RawGuild, RawMember, RawRole, SearchMembersOptions, WelcomeScreen, WidgetImageStyle, WidgetSettings, RawIntegration, Widget, GetActiveThreadsResponse, Ban, GetVanityURLResponse, RawWidget, RawStageInstance, EditMFALevelOptions, RESTMember, CreateStickerOptions, Sticker, EditStickerOptions, Onboarding, EditOnboardingOptions, RawGuildEmoji, RawSticker, InventorySettings, EditIncidentActionsOptions, IncidentActions, BulkBanOptions, BulkBanResponse, MemberSearchOptions, MemberSearchResults, CreateSoundboardSoundOptions, EditSoundboardSoundOptions } from "../types/guilds";
+import type { AddMemberOptions, BeginPruneOptions, CreateBanOptions, CreateChannelOptions, CreateGuildEmojiOptions, CreateRoleOptions, EditCurrentMemberOptions, EditCurrentUserVoiceStateOptions, EditGuildEmojiOptions, EditGuildOptions, EditMemberOptions, EditRoleOptions, EditRolePositionsEntry, EditUserVoiceStateOptions, EditWelcomeScreenOptions, GetBansOptions, GetMembersOptions, GetPruneCountOptions, GuildEmoji, ModifyChannelPositionsEntry, RawGuild, RawMember, RawRole, SearchMembersOptions, WelcomeScreen, WidgetImageStyle, WidgetSettings, RawIntegration, Widget, GetActiveThreadsResponse, Ban, GetVanityURLResponse, RawWidget, RawStageInstance, RESTMember, CreateStickerOptions, Sticker, EditStickerOptions, Onboarding, EditOnboardingOptions, RawGuildEmoji, RawSticker, InventorySettings, EditIncidentActionsOptions, IncidentActions, BulkBanOptions, BulkBanResponse, MemberSearchOptions, MemberSearchResults, CreateSoundboardSoundOptions, EditSoundboardSoundOptions } from "../types/guilds";
 import type { CreateScheduledEventOptions, EditScheduledEventOptions, GetScheduledEventUsersOptions, RawScheduledEvent, ScheduledEventUser } from "../types/scheduled-events";
 import type { CreateAutoModerationRuleOptions, EditAutoModerationRuleOptions, RawAutoModerationRule } from "../types/auto-moderation";
 import type { AuditLog, GetAuditLogOptions, RawAuditLogEntry } from "../types/audit-log";
@@ -268,10 +268,6 @@ export default class Guild extends Base {
      */
     createTestEntitlement(skuID: string, applicationID?: string): Promise<TestEntitlement>;
     /**
-     * Delete this guild.
-     */
-    delete(): Promise<void>;
-    /**
      * Delete an auto moderation rule in this guild.
      * @param ruleID The ID of the rule to delete.
      * @param reason The reason for deleting the rule.
@@ -381,11 +377,6 @@ export default class Guild extends Base {
      */
     editIncidentActions(options: EditIncidentActionsOptions): Promise<IncidentActions>;
     /**
-     * Edit the [mfa level](https://discord.com/developers/docs/resources/guild#guild-object-mfa-level) of this guild. This can only be used by the guild owner.
-     * @param options The options for editing the MFA level.
-     */
-    editMFALevel(options: EditMFALevelOptions): Promise<MFALevels>;
-    /**
      * Edit a member of this guild. Use \<Guild\>.editCurrentMember if you wish to update the nick of this client using the CHANGE_NICKNAME permission.
      * @param memberID The ID of the member.
      * @param options The options for editing the member.
@@ -408,9 +399,10 @@ export default class Guild extends Base {
     editRolePositions(options: Array<EditRolePositionsEntry>, reason?: string): Promise<Array<Role>>;
     /**
      * Edit an existing scheduled event in this guild.
+     * @param scheduledEventID The ID of the scheduled event.
      * @param options The options for editing the scheduled event.
      */
-    editScheduledEvent(options: EditScheduledEventOptions): Promise<GuildScheduledEvent>;
+    editScheduledEvent(scheduledEventID: string, options: EditScheduledEventOptions): Promise<GuildScheduledEvent>;
     /**
      * Edit a soundboard sound.
      * @param soundID The ID of the soundboard sound.

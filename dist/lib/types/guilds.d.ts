@@ -108,7 +108,9 @@ export interface RawGuild {
 export interface RawInviteGuild extends Pick<RawGuild, "id" | "name" | "splash" | "banner" | "description" | "icon" | "features" | "verification_level" | "vanity_url_code" | "premium_subscription_count" | "nsfw_level"> {}
 
 export interface RawRole {
+    /** @deprecated */
     color: number;
+    colors: RawRoleColors;
     flags: number;
     hoist: boolean;
     icon?: string | null;
@@ -137,6 +139,19 @@ export interface RoleTags {
     premiumSubscriber: boolean;
     subscriptionListingID?: string;
 }
+
+export interface RawRoleColors {
+    primary_color: number;
+    secondary_color: number | null;
+    tertiary_color: number | null;
+}
+
+export interface RoleColors {
+    primaryColor: number;
+    secondaryColor: number | null;
+    tertiaryColor: number | null;
+}
+
 export interface RawGuildEmoji extends Required<Omit<Emoji, "user" | "id">>  { id: string; user?: RawUser; }
 export interface GuildEmoji extends Omit<RawGuildEmoji, "user" | "id" | "require_colons"> { id: string; requireColons?: boolean; user?: User; }
 export interface RawWelcomeScreen {
@@ -291,33 +306,6 @@ export interface RawGuildPreview {
     stickers: Array<RawSticker>;
 }
 
-export interface CreateGuildOptions {
-    /** The ID of the AFK voice channel. */
-    afkChannelID?: string;
-    /** The AFK timeout in seconds. */
-    afkTimeout?: number;
-    /** The initial channels of the guild. */
-    channels?: Array<CreateChannelOptions>;
-    /** The default message notification level. */
-    defaultMessageNotifications?: DefaultMessageNotificationLevels;
-    /** The explicit content filter level. */
-    explicitContentFilter?: ExplicitContentFilterLevels;
-    /** The icon of the guild. */
-    icon?: Buffer | string;
-    /** The name of the guild. */
-    name: string;
-    /** @deprecated The region of the guild. */
-    region?: string | null;
-    /** The initial roles of the guild. */
-    roles?: Array<Omit<CreateRoleOptions, "reason">>;
-    /** The system channel flags. */
-    systemChannelFlags?: number;
-    /** The ID of the system channel. */
-    systemChannelID?: string;
-    /** The verification level of the guild. */
-    verificationLevel?: VerificationLevels;
-}
-
 export interface EditGuildOptions {
     /** The ID of the AFK voice channel. `null` to reset. */
     afkChannelID?: string | null;
@@ -339,8 +327,6 @@ export interface EditGuildOptions {
     icon?: Buffer | string | null;
     /** The name of the guild. */
     name?: string;
-    /** The ID of the member to transfer guild ownership to. */
-    ownerID?: string;
     /** The preferred [locale](https://discord.com/developers/docs/reference#locales) of the guild. `null` to reset. */
     preferredLocale?: string | null;
     /** If the premium progress bar is enabled. */
@@ -411,8 +397,13 @@ export interface CreateAnnouncementChannelOptions extends Omit<CreateChannelOpti
 export interface CreateStageChannelOptions extends Omit<CreateChannelOptions<ChannelTypes.GUILD_STAGE_VOICE>, "defaultAutoArchiveDuration" | "nsfw" | "rtcRegion" | "topic" | "userLimit" | "videoQualityMode"> {}
 
 export interface CreateRoleOptions {
-    /** The color of the role. */
+    /**
+     * The color of the role.
+     * @deprecated Use {@link CreateRoleOptions#colors | CreateRoleOptions#colors.primaryColor} instead.
+     */
     color?: number;
+    /** The colors of the role. */
+    colors?: Partial<RoleColors>;
     /** If the role should be hoisted. */
     hoist?: boolean;
     /** The icon for the role (buffer, or full data url). Requires the `ROLE_ICONS` feature. */
@@ -673,13 +664,6 @@ export interface CreateStageInstanceOptions {
 
 export interface EditStageInstanceOptions extends Pick<CreateStageInstanceOptions, "topic" | "privacyLevel"> {
     /** The reason for editing the stage instance. */
-    reason?: string;
-}
-
-export interface EditMFALevelOptions {
-    /** The new MFA level. */
-    level: MFALevels;
-    /** The reason for editing the MFA level. */
     reason?: string;
 }
 

@@ -2,7 +2,7 @@
 import type Guild from "./Guild";
 import type User from "./User";
 import type Client from "../Client";
-import type { CreateGuildFromTemplateOptions, EditGuildTemplateOptions, RawGuildTemplate } from "../types/guild-template";
+import type { EditGuildTemplateOptions, RawGuildTemplate } from "../types/guild-template";
 import type { RawGuild } from "../types/guilds";
 import type { JSONGuildTemplate } from "../types/json";
 /** Represents a guild template. */
@@ -33,11 +33,6 @@ export default class GuildTemplate {
     protected update(data: Partial<RawGuildTemplate>): void;
     /** The source guild of this template. This will throw an error if the guild is not cached. */
     get sourceGuild(): Guild;
-    /**
-     * Create a guild from this template. This can only be used by bots in less than 10 guilds.
-     * @param options The options for creating the guild.
-     */
-    createGuild(options: CreateGuildFromTemplateOptions): Promise<Guild>;
     /**
      * Delete this template.
      */

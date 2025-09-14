@@ -6,7 +6,7 @@ import type TestEntitlement from "./TestEntitlement";
 import Clan from "./Clan";
 import { type ImageFormat } from "../Constants";
 import type Client from "../Client";
-import type { AvatarDecorationData, RawUser } from "../types/users";
+import type { AvatarDecorationData, Collectibles, RawUser } from "../types/users";
 import type { JSONUser } from "../types/json";
 import type { SearchEntitlementsOptions } from "../types/applications";
 /** Represents a user. */
@@ -23,6 +23,8 @@ export default class User extends Base {
     bot: boolean;
     /** The primary clan this user is in. */
     clan: Clan | null;
+    /** The user's collectibles. */
+    collectibles: Collectibles | null;
     /** The 4 digits after this user's username, if they have not been migrated. If migrated, this will be a single "0". */
     discriminator: string;
     /** The user's display name, if set. */

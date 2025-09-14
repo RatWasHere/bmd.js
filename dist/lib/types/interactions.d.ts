@@ -46,7 +46,7 @@ import type Permission from "../structures/Permission";
 import type ModalSubmitInteractionComponentsWrapper from "../util/interactions/ModalSubmitInteractionComponentsWrapper";
 
 export interface InteractionContent extends Pick<ExecuteWebhookOptions, "tts" | "content" | "embeds" | "allowedMentions" | "flags" | "components" | "attachments" | "files" | "poll"> {}
-export interface EditInteractionContent extends Pick<EditWebhookMessageOptions, "content" | "embeds" | "allowedMentions" | "components" | "attachments" | "files" | "poll"> {}
+export interface EditInteractionContent extends Pick<EditWebhookMessageOptions, "content" | "embeds" | "allowedMentions" | "flags" | "components" | "attachments" | "files" | "poll"> {}
 
 export type InteractionResponse = PingInteractionResponse | MessageInteractionResponse | DeferredInteractionResponse | AutocompleteInteractionResponse | ModalSubmitInteractionResponse | PremiumRequiredResponse | LaunchActivityResponse;
 export interface PingInteractionResponse {
@@ -342,23 +342,44 @@ export interface RawModalSubmitComponentsStringValue<T extends ModalComponentTyp
     value: string;
 }
 
+export interface RawModalSubmitComponentsStringValues<T extends ModalComponentTypes = ModalComponentTypes> extends RawModalSubmitComponentsBase {
+    type: T;
+    values: Array<string>;
+}
+
+/** @deprecated */
 interface RawModalComponentsActionRow<T extends RawModalSubmitComponents> {
     components: Array<T>;
     type: ComponentTypes.ACTION_ROW;
 }
 
+/** @deprecated */
 interface ModalComponentsActionRow<T extends ModalSubmitComponents> {
     components: Array<T>;
     type: ComponentTypes.ACTION_ROW;
 }
 
+interface RawModalComponentsLabel<T extends RawModalSubmitComponents> {
+    component: T;
+    type: ComponentTypes.LABEL;
+}
+
+interface ModalComponentsLabel<T extends ModalSubmitComponents> {
+    component: T;
+    type: ComponentTypes.LABEL;
+}
+
 export type ToModalSubmitComponentFromRaw<T extends RawModalSubmitComponents> =
 T extends RawModalSubmitTextInputComponent ? ModalSubmitTextInputComponent :
-    never;
+    T extends RawModalSubmitStringSelectComponent ? ModalSubmitStringSelectComponent :
+        never;
 
+/** @deprecated */
 export type RawModalSubmitComponentsActionRow = RawModalComponentsActionRow<RawModalSubmitComponents>;
-export type RawModalSubmitComponents = RawModalSubmitTextInputComponent;
+export type RawModalSubmitComponentsLabel = RawModalComponentsLabel<RawModalSubmitComponents>;
+export type RawModalSubmitComponents = RawModalSubmitTextInputComponent | RawModalSubmitStringSelectComponent;
 export interface RawModalSubmitTextInputComponent extends RawModalSubmitComponentsStringValue<ComponentTypes.TEXT_INPUT> {}
+export interface RawModalSubmitStringSelectComponent extends RawModalSubmitComponentsStringValues<ComponentTypes.STRING_SELECT> {}
 
 interface ModalSubmitComponentsBase {
     customID: string;
@@ -369,13 +390,22 @@ export interface ModalSubmitComponentsStringValue<T extends ModalComponentTypes 
     value: string;
 }
 
+export interface ModalSubmitComponentsStringValues<T extends ModalComponentTypes = ModalComponentTypes> extends ModalSubmitComponentsBase {
+    type: T;
+    value: Array<string>;
+}
+
 export type ToRawFromoModalSubmitComponent<T extends ModalSubmitComponents> =
 T extends ModalSubmitTextInputComponent ? RawModalSubmitTextInputComponent :
-    never;
+    T extends ModalSubmitStringSelectComponent ? RawModalSubmitStringSelectComponent :
+        never;
 
+/** @deprecated */
 export type ModalSubmitComponentsActionRow = ModalComponentsActionRow<ModalSubmitComponents>;
-export type ModalSubmitComponents = ModalSubmitTextInputComponent;
+export type ModalSubmitComponentsLabel = ModalComponentsLabel<ModalSubmitComponents>;
+export type ModalSubmitComponents = ModalSubmitTextInputComponent | ModalSubmitStringSelectComponent;
 export interface ModalSubmitTextInputComponent extends ModalSubmitComponentsStringValue<ComponentTypes.TEXT_INPUT> {}
+export interface ModalSubmitStringSelectComponent extends ModalSubmitComponentsStringValues<ComponentTypes.STRING_SELECT> {}
 
 export type ApplicationCommandTypesWithTarget = ApplicationCommandTypes.USER | ApplicationCommandTypes.MESSAGE;
 

@@ -25,9 +25,9 @@ export default class Client<E extends ClientEvents = ClientEvents> extends Typed
     private _application?;
     private _user?;
     /** A key-value mapping of channel IDs to guild IDs. In most cases, every channel listed here should be cached in their respective guild's {@link Guild#channels | channels collection}. */
-    channelGuildMap: Record<string, string>;
+    channelGuildMap: Map<string, string>;
     groupChannels: TypedCollection<RawGroupChannel, GroupChannel>;
-    guildShardMap: Record<string, number>;
+    guildShardMap: Map<string, number>;
     guilds: TypedCollection<RawGuild, Guild, [rest?: boolean]>;
     options: ClientInstanceOptions;
     privateChannels: TypedCollection<RawPrivateChannel, PrivateChannel>;
@@ -36,7 +36,7 @@ export default class Client<E extends ClientEvents = ClientEvents> extends Typed
     shards: ShardManager;
     startTime: number;
     /** A key-value mapping of thread IDs to guild IDs. In most cases, every channel listed here should be cached in their respective guild's {@link Guild#threads | threads collection}. */
-    threadGuildMap: Record<string, string>;
+    threadGuildMap: Map<string, string>;
     unavailableGuilds: TypedCollection<RawUnavailableGuild, UnavailableGuild>;
     users: TypedCollection<RawUser, User>;
     util: Util;
